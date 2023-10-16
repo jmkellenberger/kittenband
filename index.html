@@ -1,1 +1,53 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            outline: 1px solid white;
+        }
+
+        body {
+            background-color: indigo;
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
+    <script src="js/game.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/tile.js"></script>
+    <script src="js/monster.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/spell.js"></script>
+</head>
+
+<body>
+    <canvas></canvas>
+    <script>
+        tileSize = 64;
+        numTiles = 9;
+        uiWidth = 4;
+
+        x = y = 0;
+
+        spritesheet = new Image();
+        spritesheet.src = 'spritesheet.png';
+
+        document.querySelector("html").onkeypress = function (e) {
+            if (e.key == "w" && y > 0) y--;
+            if (e.key == "s") y++;
+            if (e.key == "a" && x > 0) x--;
+            if (e.key == "d") x++;
+        };
+
+        setInterval(draw, 15);
+
+        setupCanvas();
+    </script>
+
+</body>
+
+</html>
