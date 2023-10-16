@@ -10,6 +10,10 @@ class Tile {
         drawSprite(this.sprite, this.x, this.y);
     }
 
+    dist(other) {
+        return Math.abs(this.x - other.x) + Math.abs(this.y - other.y);
+    }
+
     getNeighbor(dx, dy) {
         return getTile(this.x + dx, this.y + dy)
     }
