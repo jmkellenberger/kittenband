@@ -42,10 +42,18 @@
             if (e.key == "a" && x > 0) x--;
             if (e.key == "d") x++;
         };
-
         setInterval(draw, 15);
 
+
+
         setupCanvas();
+
+        generateLevel();
+        startingTile = randomPassableTile();
+        x = startingTile.x;
+        y = startingTile.y;
+
+
     </script>
 
 </body>
