@@ -6,6 +6,12 @@ class Tile {
         this.passable = passable;
     }
 
+    replace(newTileType) {
+        tiles[this.x][this.y] = new newTileType(this.x, this.y);
+        console.log(tiles)
+        return tiles[this.x][this.y];
+    }
+
     draw() {
         drawSprite(this.sprite, this.x, this.y);
     }

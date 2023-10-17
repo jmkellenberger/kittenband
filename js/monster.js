@@ -6,10 +6,14 @@ class Monster {
     }
 
     update() {
-        this.findPath();
+        if (this.stunned) {
+            this.stunned = false;
+            return;
+        }
+        this.doStuff();
     }
 
-    findPath() {
+    doStuff() {
         let neighbors = this.tile.getAdjacentPassableNeighbors();
         neighbors = neighbors.filter(t => !t.monster || t.monster.isPlayer);
         if (neighbors.length) {
@@ -21,6 +25,17 @@ class Monster {
 
     draw() {
         drawSprite(this.sprite, this.tile.x, this.tile.y);
+        this.drawHp();
+    }
+
+    drawHp() {
+        for (let i = 0; i < this.hp; i++) {
+            drawSprite(
+                9,
+                this.tile.x + (i % 3) * (5 / 16),
+                this.tile.y - Math.floor(i / 3) * (5 / 16)
+            );
+        }
     }
 
     tryMove(dx, dy) {
@@ -28,9 +43,34 @@ class Monster {
         if (newTile.passable) {
             if (!newTile.monster) {
                 this.move(newTile);
+            } else {
+                if (this.isPlayer != newTile.monster.isPlayer) {
+                    this.attackedThisTurn = true;
+
+                    newTile.monster.stunned = true;
+
+                    newTile.monster.hit(1);
+                }
             }
             return true;
         }
+    }
+
+    heal(damage) {
+        this.hp = Math.min(maxHp, this.hp + damage)
+    }
+
+    hit(damage) {
+        this.hp -= damage;
+        if (this.hp <= 0) {
+            this.die();
+        }
+    }
+
+    die() {
+        this.dead = true;
+        this.tile.monster = null;
+        this.sprite = 1;
     }
 
     move(tile) {
@@ -57,17 +97,41 @@ class Snek extends Monster {
     constructor(tile) {
         super(tile, 4, 2);
     }
+
+    doStuff() {
+        this.attackedThisTurn = false;
+        super.doStuff();
+        if (!this.attackedThisTurn) {
+            super.doStuff()
+        }
+    }
 }
 
 class Jelly extends Monster {
     constructor(tile) {
         super(tile, 5, 3);
     }
+
+    update() {
+        let startedStunned = this.stunned;
+        super.update();
+        if (!startedStunned) {
+            this.stunned = true;
+        }
+    }
 }
 
 class Fly extends Monster {
     constructor(tile) {
         super(tile, 6, 1);
+    }
+
+    doStuff() {
+        let neighbors = this.tile.getAdjacentPassableNeighbors();
+        if (neighbors.length) {
+            let newTile = neighbors[0];
+            this.tryMove(newTile.x - this.tile.x, newTile.y - this.tile.y);
+        }
     }
 }
 
@@ -80,5 +144,16 @@ class Shroom extends Monster {
 class Tenty extends Monster {
     constructor(tile) {
         super(tile, 8, 2);
+    }
+
+    doStuff() {
+        let neighbors = this.tile.getAdjacentNeighbors().filter((t) => !t.passable && inBounds(t.x, t.y));
+        if (neighbors.length) {
+            console.log(neighbors);
+            neighbors[0].replace(Floor);
+            this.heal(1)
+        } else {
+            super.doStuff();
+        }
     }
 }
