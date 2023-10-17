@@ -13,7 +13,13 @@ class Tile {
     }
 
     draw() {
-        drawSprite(this.sprite, this.x, this.y);
+        this.sprite.forEach(sprite => {
+            drawSprite(sprite, this.x, this.y);
+        });
+
+        if (this.treasure) {
+            drawSprite(12, this.x, this.y);
+        }
     }
 
     dist(other) {
@@ -53,24 +59,30 @@ class Tile {
 
 class Floor extends Tile {
     constructor(x, y) {
-        super(x, y, 2, true)
+        super(x, y, [2], true)
     }
 
     stepOn(monster) {
-        // TODO
+        if (monster.isPlayer && this.treasure) {
+            score++;
+            this.treasure = false;
+            spawnMonster();
+        } else {
+            this.treasure = false;
+        }
     }
 }
 
 
 class Wall extends Tile {
     constructor(x, y) {
-        super(x, y, 3, false)
+        super(x, y, [3], false)
     }
 }
 
 class Exit extends Tile {
     constructor(x, y) {
-        super(x, y, 11, true);
+        super(x, y, [2, 11], true);
     }
 
     stepOn(monster) {

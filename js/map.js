@@ -3,6 +3,12 @@ function generateLevel() {
         return generateTiles() == randomPassableTile().getConnectedTiles().length;
     })
 
+    for (let i = 0; i < 3; i++) {
+
+        randomPassableTile().treasure = true;
+
+    }
+
     generateMonsters();
 }
 

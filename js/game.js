@@ -54,7 +54,8 @@ function draw() {
 
         player.draw();
 
-        drawText("Level: " + level, 30, false, 40, "violet");
+        drawText("Level: " + level, 20, false, 40, "violet");
+        drawText("Kittens Rescued: " + score, 20, false, 75, "violet");
     }
 }
 
@@ -92,6 +93,7 @@ function showTitle() {
 
 function startGame() {
     level = 1;
+    score = 0;
     startLevel(startingHp);
     gameState = "running";
 }
