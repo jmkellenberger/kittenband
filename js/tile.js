@@ -65,11 +65,12 @@ class Floor extends Tile {
         if (this.treasure) {
             if (monster.isPlayer) {
                 score++;
+                playSound("kittenRescued");
                 this.treasure = false;
                 spawnMonster();
             } else {
+                playSound("kittenSad");
                 this.treasure = false;
-                playSound("sadKitten");
             }
         }
     }
@@ -89,12 +90,13 @@ class Exit extends Tile {
 
     stepOn(monster) {
         if (monster.isPlayer) {
+            playSound('teleport');
             if (level == numLevels) {
                 addScore(score, true);
                 showTitle();
             } else {
                 level++;
-                startLevel(Math.min(maxHp, player.hp + 1))
+                startLevel(Math.min(maxHp, player.hp + 1));
             }
         }
     }

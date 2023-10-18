@@ -178,7 +178,11 @@ function addScore(score, won) {
 
 function initSounds() {
     sounds = {
-        sadKitten: new Audio('sounds/kitten_sad.wav')
+        hit1: new Audio('sounds/hit1.wav'),
+        hit2: new Audio('sounds/hit2.wav'),
+        kittenRescued: new Audio('sounds/kitten_rescued.wav'),
+        kittenSad: new Audio('sounds/kitten_sad.wav'),
+        teleport: new Audio('sounds/teleport.wav')
     }
 }
 
