@@ -175,3 +175,14 @@ function addScore(score, won) {
     scores.push(scoreObject);
     localStorage["scores"] = JSON.stringify(scores);
 }
+
+function initSounds() {
+    sounds = {
+        sadKitten: new Audio('sounds/kitten_sad.wav')
+    }
+}
+
+function playSound(soundName) {
+    sounds[soundName].currentTime = 0;
+    sounds[soundName].play();
+}

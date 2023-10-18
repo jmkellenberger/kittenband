@@ -8,7 +8,6 @@ class Tile {
 
     replace(newTileType) {
         tiles[this.x][this.y] = new newTileType(this.x, this.y);
-        console.log(tiles)
         return tiles[this.x][this.y];
     }
 
@@ -63,12 +62,15 @@ class Floor extends Tile {
     }
 
     stepOn(monster) {
-        if (monster.isPlayer && this.treasure) {
-            score++;
-            this.treasure = false;
-            spawnMonster();
-        } else {
-            this.treasure = false;
+        if (this.treasure) {
+            if (monster.isPlayer) {
+                score++;
+                this.treasure = false;
+                spawnMonster();
+            } else {
+                this.treasure = false;
+                playSound("sadKitten");
+            }
         }
     }
 }
