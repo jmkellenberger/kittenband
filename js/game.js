@@ -49,17 +49,26 @@ function draw() {
             }
         }
 
+        monsters.forEach((m) => m.draw())
+
         for (let i = 0; i < monsters.length; i++) {
-
             monsters[i].draw();
-
         }
 
         player.draw();
 
         drawText("Level: " + level, 20, false, 40, "violet");
         drawText("Kittens Rescued: " + score, 20, false, 75, "violet");
+        drawSpellList();
+
     }
+}
+
+function drawSpellList() {
+    player.spells.forEach((spellName, i) => {
+        let spellText = (i + 1) + ") " + (spellName);
+        drawText(spellText, 20, false, 110 + i * 40, "aqua");
+    });
 }
 
 function screenshake() {
@@ -130,7 +139,7 @@ function showTitle() {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     gameState = "title";
 
-    drawText("DIM SPIRITS", 40, true, canvas.height / 2 - 110, "white");
+    drawText("SAVE THE KITTENS", 40, true, canvas.height / 2 - 110, "white");
     drawText("PRESS ANY KEY TO CONTINUE", 25, true, canvas.height / 2 - 50, "white");
     drawScores();
 }
@@ -138,6 +147,9 @@ function showTitle() {
 function startGame() {
     level = 1;
     score = 0;
+
+    numSpells = 1;
+
     startLevel(startingHp);
     gameState = "running";
 }
@@ -182,6 +194,7 @@ function initSounds() {
         hit2: new Audio('sounds/hit2.wav'),
         kittenRescued: new Audio('sounds/kitten_rescued.wav'),
         kittenSad: new Audio('sounds/kitten_sad.wav'),
+        spell: new Audio('sounds/spell.wav'),
         teleport: new Audio('sounds/teleport.wav')
     }
 }

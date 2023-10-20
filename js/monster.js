@@ -80,6 +80,21 @@ class Monster {
         }
     }
 
+    addSpell() {
+        let newSpell = shuffle(Object.keys(spells))[0];
+        this.spells.push(newSpell);
+    }
+
+    castSpell(index) {
+        let spellName = this.spells[index];
+        if (spellName) {
+            delete this.spells[index];
+            spells[spellName]();
+            playSound("spell");
+            tick();
+        }
+    }
+
     heal(damage) {
         this.hp = Math.min(maxHp, this.hp + damage)
     }
@@ -122,6 +137,8 @@ class Player extends Monster {
         super(tile, 0, 3);
         this.isPlayer = true;
         this.teleportCounter = 0;
+
+        this.spells = shuffle(Object.keys(spells)).splice(0, numSpells);
     }
 
     tryMove(dx, dy) {
