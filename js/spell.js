@@ -1,3 +1,3 @@
 spells = {
-    BLINK: function () { player.move(randomPassableTile()); }
+    BLINK: function () { player.move(randomTreasureTile()); }
 }

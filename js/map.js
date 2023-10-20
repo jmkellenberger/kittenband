@@ -56,6 +56,15 @@ function randomPassableTile() {
     return tile;
 }
 
+function randomTreasureTile() {
+    let treasure = tiles.flat().filter((t) => t.treasure)
+    if (treasure.length > 0) {
+        return shuffle(treasure)[0];
+    } else {
+        return randomPassableTile();
+    }
+}
+
 function generateMonsters() {
     monsters = [];
     let numMonsters = level + 1;

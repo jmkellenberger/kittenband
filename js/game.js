@@ -43,17 +43,9 @@ function draw() {
 
         screenshake();
 
-        for (let i = 0; i < numTiles; i++) {
-            for (let j = 0; j < numTiles; j++) {
-                getTile(i, j).draw();
-            }
-        }
+        tiles.flat().forEach((t) => t.draw());
 
         monsters.forEach((m) => m.draw())
-
-        for (let i = 0; i < monsters.length; i++) {
-            monsters[i].draw();
-        }
 
         player.draw();
 
