@@ -7,8 +7,15 @@ class Monster {
 
         this.facing = { x: -1, y: 0 }
 
+        this.x;
+        this.y;
+
         this.offsetX = 0;
         this.offsetY = 0;
+    }
+
+    tile() {
+        return getTile(this.x, this.y);
     }
 
     update() {
@@ -21,21 +28,21 @@ class Monster {
     }
 
     doStuff() {
-        let neighbors = this.tile.getAdjacentPassableNeighbors();
+        let neighbors = this.tile().getAdjacentPassableNeighbors();
         neighbors = neighbors.filter(t => !t.monster || t.monster.isPlayer);
         if (neighbors.length) {
             neighbors.sort((a, b) => a.dist(player.tile) - b.dist(player.tile));
             let newTile = neighbors[0];
-            this.tryMove(newTile.x - this.tile.x, newTile.y - this.tile.y);
+            this.tryMove(newTile.x - this.tile().x, newTile.y - this.tile().y);
         }
     }
 
     getDisplayX() {
-        return this.tile.x + this.offsetX;
+        return this.tile().x + this.offsetX;
     }
 
     getDisplayY() {
-        return this.tile.y + this.offsetY;
+        return this.tile().y + this.offsetY;
     }
 
     draw() {
@@ -63,7 +70,7 @@ class Monster {
 
     tryMove(dx, dy) {
         this.facing = { x: dx, y: dy }
-        let newTile = this.tile.getNeighbor(dx, dy);
+        let newTile = this.tile().getNeighbor(dx, dy);
         if (newTile.passable) {
             if (!newTile.monster) {
                 this.move(newTile);
@@ -75,8 +82,8 @@ class Monster {
 
                     shakeAmount = 5;
 
-                    this.offsetX = (newTile.x - this.tile.x) / 2;
-                    this.offsetY = (newTile.y - this.tile.y) / 2;
+                    this.offsetX = (newTile.x - this.tile().x) / 2;
+                    this.offsetY = (newTile.y - this.tile().y) / 2;
                 }
             }
             return true;
@@ -117,18 +124,19 @@ class Monster {
 
     die() {
         this.dead = true;
-        this.tile.monster = null;
+        this.tile().monster = null;
         this.sprite = 1;
     }
 
     move(tile) {
-        if (this.tile) {
-            this.tile.monster = null;
+        if (this.tile()) {
+            this.tile().monster = null;
 
-            this.offsetX = this.tile.x - tile.x;
-            this.offsetY = this.tile.y - tile.y;
+            this.offsetX = this.tile().x - tile.x;
+            this.offsetY = this.tile().y - tile.y;
         }
-        this.tile = tile;
+        this.x = tile.x;
+        this.y = tile.y;
         tile.monster = this;
 
         tile.stepOn(this);
@@ -183,10 +191,10 @@ class Fly extends Monster {
     }
 
     doStuff() {
-        let neighbors = this.tile.getAdjacentPassableNeighbors();
+        let neighbors = this.tile().getAdjacentPassableNeighbors();
         if (neighbors.length) {
             let newTile = neighbors[0];
-            this.tryMove(newTile.x - this.tile.x, newTile.y - this.tile.y);
+            this.tryMove(newTile.x - this.tile().x, newTile.y - this.tile().y);
         }
     }
 }
@@ -203,7 +211,7 @@ class Tenty extends Monster {
     }
 
     doStuff() {
-        let neighbors = this.tile.getAdjacentNeighbors().filter((t) => !t.passable && inBounds(t.x, t.y));
+        let neighbors = this.tile().getAdjacentNeighbors().filter((t) => !t.passable && inBounds(t.x, t.y));
         if (neighbors.length) {
             neighbors[0].replace(Floor);
             this.heal(1)
