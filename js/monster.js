@@ -141,7 +141,7 @@ class Player extends Monster {
         this.isPlayer = true;
         this.teleportCounter = 0;
 
-        this.spells = shuffle(Object.keys(spells)).splice(0, numSpells);
+        this.spells = [];
     }
 
     tryMove(dx, dy) {

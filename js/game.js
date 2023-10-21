@@ -140,18 +140,19 @@ function startGame() {
     level = 1;
     score = 0;
 
-    numSpells = 1;
+    numSpells = 9;
 
-    startLevel(startingHp);
+    startLevel(startingHp, randomSpells(numSpells));
     gameState = "running";
 }
 
-function startLevel(playerHp) {
+function startLevel(playerHp, playerSpells) {
     spawnRate = 15;
     spawnCounter = spawnRate;
     generateLevel();
     player = new Player(randomPassableTile());
     player.hp = playerHp
+    player.spells = playerSpells
 
     randomPassableTile().replace(Exit);
 }

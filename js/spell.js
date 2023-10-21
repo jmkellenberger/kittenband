@@ -25,13 +25,13 @@ spells = {
         shakeAmount = 20;
         player.move(furthest_tile)
 
-        let targets = monsters.filter((m) => checked_tiles.includes(m.tile) || m.isPlayer)
+        let targets = monsters.filter((m) => checked_tiles.includes(m.tile))
 
         targets.forEach((t) => {
             let neighbors = [t.tile.getNeighbor(facingY, facingX), t.tile.getNeighbor(-facingY, -facingX)].filter((t) => t.passable);
             if (neighbors.length) {
                 let new_tile = shuffle(neighbors)[0];
-                if (new_tile.monster) {
+                if (new_tile.monster && !new_tile.monster.isPlayer) {
                     t.hit(2)
                     t.stunned = true
                     new_tile.monster.hit(2)
@@ -48,3 +48,6 @@ spells = {
 
     }
 }
+
+
+function randomSpells(n) { return shuffle(Object.keys(spells)).splice(0, n) }
