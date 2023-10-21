@@ -10,9 +10,9 @@ spells = {
     DASH: function () {
         let { x: facingX, y: facingY } = player.facing
         let passable = true
-        let current_tile = player.tile
-        let furthest_tile = player.tile
-        let checked_tiles = [player.tile]
+        let current_tile = player.tile();
+        let furthest_tile = player.tile();
+        let checked_tiles = [player.tile()];
         while (passable) {
             current_tile = current_tile.getNeighbor(facingX, facingY);
             if (current_tile.passable) {
@@ -25,10 +25,10 @@ spells = {
         shakeAmount = 20;
         player.move(furthest_tile)
 
-        let targets = monsters.filter((m) => checked_tiles.includes(m.tile))
+        let targets = monsters.filter((m) => checked_tiles.includes(m.tile()));
 
         targets.forEach((t) => {
-            let neighbors = [t.tile.getNeighbor(facingY, facingX), t.tile.getNeighbor(-facingY, -facingX)].filter((t) => t.passable);
+            let neighbors = [t.tile().getNeighbor(facingY, facingX), t.tile().getNeighbor(-facingY, -facingX)].filter((t) => t.passable);
             if (neighbors.length) {
                 let new_tile = shuffle(neighbors)[0];
                 if (new_tile.monster && !new_tile.monster.isPlayer) {
@@ -45,7 +45,6 @@ spells = {
             t.hit(2);
         }
         )
-
     }
 }
 
