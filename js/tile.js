@@ -66,8 +66,7 @@ class Floor extends Tile {
             if (monster.isPlayer) {
                 score++;
 
-                if (score % 3 == 0 && numSpells < 9) {
-                    numSpells++;
+                if (score % 3 == 0 && player.spells.length < 9) {
                     player.addSpell();
                 };
 

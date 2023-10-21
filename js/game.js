@@ -136,11 +136,10 @@ function showTitle() {
     drawScores();
 }
 
+
 function startGame() {
     level = 1;
     score = 0;
-
-    numSpells = 9;
 
     startLevel(startingHp, randomSpells(numSpells));
     gameState = "running";

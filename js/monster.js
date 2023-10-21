@@ -98,7 +98,7 @@ class Monster {
     castSpell(index) {
         let spellName = this.spells[index];
         if (spellName) {
-            delete this.spells[index];
+            this.spells = this.spells.filter((s) => s != spellName);
             spells[spellName]();
             playSound("spell");
             tick();
