@@ -5,6 +5,8 @@ class Monster {
         this.hp = hp;
         this.teleportCounter = 2;
 
+        this.facing = { x: -1, y: 0 }
+
         this.offsetX = 0;
         this.offsetY = 0;
     }
@@ -60,6 +62,7 @@ class Monster {
     }
 
     tryMove(dx, dy) {
+        this.facing = { x: dx, y: dy }
         let newTile = this.tile.getNeighbor(dx, dy);
         if (newTile.passable) {
             if (!newTile.monster) {

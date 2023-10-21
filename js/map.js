@@ -58,7 +58,7 @@ function randomPassableTile() {
 
 function randomTreasureTile() {
     let treasure = tiles.flat().filter((t) => t.treasure)
-    if (treasure.length > 0) {
+    if (treasure.length) {
         return shuffle(treasure)[0];
     } else {
         return randomPassableTile();
